@@ -7,5 +7,5 @@ import { TroisJSVuePlugin } from "troisjs";
 
 const app = createApp(App);
 app.use(router).use(TroisJSVuePlugin);
-app.config.isCustomElement = tag => tag.startsWith('smart-');
+app.config.isCustomElement = (tag) => tag.startsWith("smart-");
 app.mount("#app");
