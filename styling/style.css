@@ -13,3 +13,32 @@
 * {
     font-family: quicksand;
 }
+#moods{
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top:10%;
+    flex-wrap: wrap;
+    width:80%;
+    position:relative;
+    left:15%;
+    background-color: white;
+}
+.faces{
+    height:150px;
+    width:auto;
+    background-color: white;
+    margin-top:30px
+
+}
+.select-mood{
+    margin-top:45px;
+    position:relative;
+    left: 45%;
+}
+.button{
+    border:none;
+    background-color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+}

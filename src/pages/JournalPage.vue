@@ -1,3 +1,4 @@
+
 <template>
     <div class="container border border-primary mt-1">
         <div class="row border border-dark">
@@ -17,7 +18,34 @@
             </div>
 
             <!-- Journal Column -->
-            <div class="col-8 border border-warning">hellox  </div>
+            <div class="col-8 border border-warning">
+                <h2>How are you feeling today?</h2>
+                <div id="moods">
+                    <button class="button">
+                        <img class='faces' src="../assets/images/moods/angry.png">
+                        <h3>Angry</h3>
+                    </button>
+                    <button class="button" onclick="showBorder()">
+                        <img class='faces' src="../assets/images/moods/sad.png">
+                        <h3>Sad</h3>
+                    </button>
+                    <button class="button">
+                        <img class='faces' src="../assets/images/moods/neutral.png">
+                        <h3>Neutral</h3>
+                    </button>
+                    <button class="button">
+                        <img class='faces' src="../assets/images/moods/happy.png">
+                        <h3>Happy</h3></button>
+                    <button class="button">
+                        <img class='faces' src="../assets/images/moods/euphoric.png">
+                        <h3>Euphoric</h3>
+                    </button>
+                    
+                </div>
+                <button type="button" class=" select-mood btn btn-primary">Select Mood</button>
+
+            </div>
+            
         </div>
 
     </div>
