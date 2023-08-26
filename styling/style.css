@@ -40,9 +40,17 @@
     padding-left: 10px;
     padding-right: 10px;
 }
-#journalEntry, .label{
+#journalEntry{
     width: 100%;
-    color: #FFF;
+    /* color: #FFF; */
+    background: transparent;
+    border: none;
+    outline: none;
+    padding:15px;
+}
+.label{
+    /* width: 100%; */
+    /* color: #FFF; */
     background: transparent;
     border: none;
     outline: none;

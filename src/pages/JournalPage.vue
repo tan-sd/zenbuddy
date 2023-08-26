@@ -25,7 +25,7 @@
             <!-- Journal Column -->
             <div class="col-8">
                 <!-- Mood Selection Page -->
-                <div class="">
+                <!-- <div class="">
                     <h2 class="mt-3 text-center">How are you feeling today?</h2>
                     <div id="moods" class="">
                         <button
@@ -138,12 +138,23 @@
                             Select Mood
                         </button>
                     </div>
-                </div>
+                </div> -->
+
+
                 <!-- Journal Entry Page -->
-                <!-- <div class="">
-                    <div class = "text-container bg-primary" >
-                        <label class="label" for="journalEntry">Write Something</label>
-                        <textarea id="journalEntry"></textarea>
+                <div class="">
+                    <!-- Prompt Message -->
+                    <div class="">
+                        <h3>Prompt for the day</h3>
+                        <p>Describe a moment from today that brought a smile to your face. Dive into the details of what made this moment so joyful, and explore the positive emotions it stirred within you.</p>
+                        <button>Regenerate a prompt</button>
+                    </div>
+                    <div class = "text-container mt-3" >
+                        <label class="label" for="journalEntry">Start your journal entry for the day!</label>
+                        <textarea id="journalEntry">ABC</textarea>
+                        <div class="d-flex justify-content-center mt-2">
+                            <button type="button" class="btn btn-primary mt-2">Save Entry</button>
+                        </div>
                     </div>
                 </div> -->
             </div>
