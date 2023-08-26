@@ -1,0 +1,23 @@
+// CUSTOM BOOTSTRAP SCSS
+$primary:       #43CD9F;
+$secondary:     #A084E8;
+$success:       #074F57;
+$info:          #0BB4D5;
+$warning:       #FDCA40;
+$danger:        #FF7477;
+$light:         #CFF2E6;
+$dark:          #092018;
+
+// import the functions & variables
+@import '../node_modules/bootstrap/scss/functions';
+@import '../node_modules/bootstrap/scss/variables';
+
+$custom-theme-colors: (
+    // "extra-dark": #1e2e1e,
+    // "extra-light": #f4e7db
+);
+
+$theme-colors: map-merge($custom-theme-colors, $theme-colors);
+
+// import bootstrap
+@import '../node_modules/bootstrap/scss/bootstrap';

@@ -1,0 +1,15 @@
+/* CSS HERE WILL AFFECT ALL PAGES */
+
+@font-face {
+    font-family: sf-pro-display-bold;
+    src: url("../src/assets/fonts/sf-display-pro/sf-pro-display-bold.otf");
+}
+
+@font-face {
+    font-family: quicksand;
+    src: url("../src/assets/fonts/quicksand/Quicksand-VariableFont_wght.ttf");
+}
+
+* {
+    font-family: quicksand;
+}
