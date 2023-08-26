@@ -1,5 +1,3 @@
-import openai
-
 <template>
   <div>
     <h1>Mental Wellness Journal</h1>
@@ -38,16 +36,18 @@ export default {
               Authorization: `Bearer ${this.apiKey}`,
             },
             body: JSON.stringify({
-              prompt: this.journalEntry,
+              messages: [{ role: "user", content: this.journalEntry }],
               max_tokens: 10,
-              model: "text-davinci-003",
+              model: "gpt-3.5-turbo",
             }),
           }
         );
 
         const data = await response.json();
         console.log(data);
-        const prompt = data.choices[0].text.trim();
+
+        // Access the generated text from the API response
+        const prompt = data.choices[0].text;
 
         this.aiPrompt = `AI Prompt: ${prompt}`;
       } catch (error) {
