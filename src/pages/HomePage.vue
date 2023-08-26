@@ -14,11 +14,40 @@
                 <router-link to="/login"> Begin your journey </router-link>
             </button>
         </div>
-        <div class="canvas">
-            Hello World
+        <div class="canvas w-100">
+            <Renderer ref="renderer" alpha antialias resize>
+                <Camera :position="{ z: 7 }" />
+                <Scene>
+                    <AmbientLight />
+                    <GltfModel ref="books" src="/models/books.glb" :position="{y: -1}" />
+                </Scene>
+            </Renderer>
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            time: 0,
+        };
+    },
+    mounted() {
+        const renderer = this.$refs.renderer;
+        const books = this.$refs.books.scene;
+
+        renderer.onBeforeRender(() => {
+            books.rotation.y = Math.sin(this.time) * 0.5;
+
+            const distance = 0.25;
+            books.position.y = Math.sin(this.time) * distance;
+
+            this.time += 0.01;
+        });
+    },
+};
+</script>
 
 <style>
 @font-face {
@@ -29,11 +58,13 @@
     font-family: sf-pro-display-bold !important;
     letter-spacing: 1.5px;
 }
-
 .about-button {
     font-family: sf-pro-display-bold !important;
     background: none;
     padding: 10px;
     border-radius: 3.5rem;
+}
+.canvas {
+    height: 700px;
 }
 </style>
