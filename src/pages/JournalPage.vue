@@ -11,7 +11,6 @@
                 <div class="row border border-dark mx-auto mt-1">
                     <div class="vue-root">
                         <smart-calendar id="calendar"></smart-calendar>
-
                     </div>
 
                 </div>
@@ -25,7 +24,7 @@
 </template>
 
 <script>
-import { onMounted } from "vue";
+import { onMounted} from "vue";
 import "smart-webcomponents/source/styles/smart.default.css";
 import "smart-webcomponents/source/modules/smart.calendar.js";
 export default {
@@ -44,32 +43,36 @@ export default {
 
         // Set important dates
         // ASYNC DATES HERE
-        const importantDates = ["2023-08-01", "2023-08-12", "2023-08-14", "2023-08-23"];
+        const importantDates = ["2023-08-01", "2023-08-03", "2023-08-04", "2023-08-05", "2023-08-06", "2023-08-07", "2023-08-08","2023-08-09"];
         calendar.importantDates = importantDates;
 
         // Set importantDatesTemplate
-        importantDates.forEach((date, index) => {
-            const template = document.createElement("template");
-            template.id = `importantDatesTemplate${index}`;
-            template.innerHTML = `<span>{{day}}</span><span>🎂</span>`;
-            document.body.appendChild(template);
-            calendar.setImportantDatesTemplate(date, `importantDatesTemplate${index}`);
-        });
+        calendar.whenRendered(() => {
+					const template = document.createElement('template');
+
+					template.id = "importantDatesTemplate";
+					template.innerHTML = `<span>{{day}}</span><span>📒</span>`;
+
+					document.body.appendChild(template);
+					calendar.importantDatesTemplate = "importantDatesTemplate";
+
+
+                });        
     });
 },
+    computed: {
+
+    },
     created() {
 
     },
 
     data() {
             return {
-                journalEntriesDates: [
-                    "2023-08-01", "2023-08-07", "2023-08-15", "2023-08-23"
-                ],
-            }
+
+            };
         },
     methods(){
-
     },
     mounted(){
 
@@ -77,6 +80,5 @@ export default {
 };
 
 
-
-
 </script>
+
