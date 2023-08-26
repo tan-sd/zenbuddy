@@ -10,8 +10,10 @@
                 journaling app unites a diverse community with a common goal:
                 nurturing mental well-being and fostering personal growth.
             </div>
-            <button class="about-button">
-                <router-link to="/login"> Begin your journey </router-link>
+            <button class="btn btn-primary">
+                <router-link to="/login">
+                    <div class="about-button">Begin your journey</div>
+                </router-link>
             </button>
         </div>
         <div class="canvas w-100">
@@ -19,7 +21,11 @@
                 <Camera :position="{ z: 7 }" />
                 <Scene>
                     <AmbientLight />
-                    <GltfModel ref="books" src="/models/books.glb" :position="{y: -1}" />
+                    <GltfModel
+                        ref="books"
+                        src="/models/books.glb"
+                        :position="{ y: -1 }"
+                    />
                 </Scene>
             </Renderer>
         </div>
@@ -50,13 +56,17 @@ export default {
 </script>
 
 <style>
+
+.about-content {
+    margin-top: 250px;
+    margin-left: 50px;
+}
+.about-text {
+    display: block;
+}
 .about-title {
     letter-spacing: 1.5px;
-}
-.about-button {
-    background: none;
-    padding: 10px;
-    border-radius: 3.5rem;
+    font-weight: 600;
 }
 .canvas {
     height: 700px;
