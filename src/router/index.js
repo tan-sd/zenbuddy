@@ -1,30 +1,36 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "../pages/HomePage.vue";
 import LoginPage from "../pages/LoginPage.vue";
+import SignUpPage from "../pages/SignUpPage.vue";
 import JournalPage from "../pages/JournalPage.vue";
 
 const routes = [
     {
-        path: '/',
-        name: 'ZenBuddy',
-        component: HomePage
+        path: "/",
+        name: "ZenBuddy",
+        component: HomePage,
     },
     {
-        path: '/login',
-        name: 'Login',
-        component: LoginPage
+        path: "/login",
+        name: "Login",
+        component: LoginPage,
     },
     {
-        path: '/journal',
-        name: 'Journal',
-        component: JournalPage
+        path: "/signup",
+        name: "Sign Up",
+        component: SignUpPage,
     },
-]
+    {
+        path: "/journal",
+        name: "Journal",
+        component: JournalPage,
+    },
+];
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
-    routes
-})
+    routes,
+});
 
 router.beforeEach((to) => {
     document.title = to.name;
@@ -39,4 +45,4 @@ router.beforeEach((to) => {
     // }
 });
 
-export default router
+export default router;
