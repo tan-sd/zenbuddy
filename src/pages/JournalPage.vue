@@ -1,15 +1,19 @@
 
 <template>
-    <div class="container border border-primary mt-1">
-        <div class="row border border-dark">
+    <div class="container mt-1">
+        <div class="row ">
             <!-- Quote & Calendar Column -->
-            <div class="col-4 border border-secondary">
-                <div class="row border border-dark fw-bold fs-3 lh-lg my-3"> Welcome John!</div>
+            <div class="col-4 ">
+                <div class="row"> 
+                    <h2 class="text-center">Welcome John!</h2>
+                </div>
                 <!-- Quote -->
-                <div class="row fw-light fst-italic my-3 fs-5">“ The bad thing is that the time is short… and the good thing is that there is still some time..” </div>
+                <div class="row fw-light fst-italic my-3 fs-5">
+                    <p class="text-center">“ The bad thing is that the time is short… and the good thing is that there is still some time..” </p>
+                </div>
                 
                 <!-- Calendar -->
-                <div class="row border border-dark mx-auto mt-1">
+                <div class="row  mx-auto mt-1">
                     <div class="vue-root">
                         <smart-calendar id="calendar"></smart-calendar>
                     </div>
@@ -18,32 +22,33 @@
             </div>
 
             <!-- Journal Column -->
-            <div class="col-8 border border-warning">
-                <h2>How are you feeling today?</h2>
-                <div id="moods">
-                    <button class="button">
-                        <img class='faces' src="../assets/images/moods/angry.png">
+            <div class="col-8 ">
+                <h2 class="mt-3">How are you feeling today?</h2>
+                <div id="moods" class="">
+                    <button class="button" id="angry"  :class="{ 'selected': selectedMood=== 'angry' }" @click="selectMood('angry')">
+                        <img class='faces' :style="{ border: selectedMood === 'angry' ? '4px solid #AED0FF' : 'none', borderRadius: selectedMood === 'angry' ? '10%' : '0' }" src="../assets/images/moods/angry.png">
                         <h3>Angry</h3>
                     </button>
-                    <button class="button" onclick="showBorder()">
-                        <img class='faces' src="../assets/images/moods/sad.png">
+                    <button class="button" id="sad" :class="{ 'selected': selectedMood=== 'sad' }" @click="selectMood('sad')">
+                        <img class='faces' :style="{ border: selectedMood === 'sad' ? '4px solid #AED0FF' : 'none' , borderRadius: selectedMood === 'sad' ? '10%' : '0'}" src="../assets/images/moods/sad.png">
                         <h3>Sad</h3>
                     </button>
-                    <button class="button">
-                        <img class='faces' src="../assets/images/moods/neutral.png">
+                    <button class="button" id="neutral" :class="{ 'selected': selectedMood=== 'neutral' }" @click="selectMood('neutral')">
+                        <img class='faces' :style="{ border: selectedMood === 'neutral' ? '4px solid #AED0FF' : 'none', borderRadius: selectedMood === 'neutral' ? '10%' : '0' }" src="../assets/images/moods/neutral.png">
                         <h3>Neutral</h3>
                     </button>
-                    <button class="button">
-                        <img class='faces' src="../assets/images/moods/happy.png">
+                    <button class="button" id="happy" :class="{ 'selected': selectedMood=== 'happy' }" @click="selectMood('happy')">
+                        <img class='faces' :style="{ border: selectedMood === 'happy' ? '4px solid #AED0FF' : 'none',borderRadius: selectedMood === 'happy' ? '10%' : '0'  }" src="../assets/images/moods/happy.png">
                         <h3>Happy</h3></button>
-                    <button class="button">
-                        <img class='faces' src="../assets/images/moods/euphoric.png">
+                    <button class="button" id="euphoric" :class="{ 'selected': selectedMood=== 'euphoric' }" @click="selectMood('euphoric')">
+                        <img class='faces' :style="{ border: selectedMood === 'euphoric' ? '4px solid #AED0FF' : 'none', borderRadius: selectedMood === 'euphoric' ? '10%' : '0'  }" src="../assets/images/moods/euphoric.png">
                         <h3>Euphoric</h3>
                     </button>
                     
                 </div>
-                <button type="button" class=" select-mood btn btn-primary">Select Mood</button>
-
+                <div class="d-flex justify-content-center mt-2">
+                    <button type="button" class="btn btn-primary mt-2">Select Mood</button>
+                </div>
             </div>
             
         </div>
@@ -52,7 +57,7 @@
 </template>
 
 <script>
-import { onMounted} from "vue";
+import {ref, onMounted} from "vue";
 import "smart-webcomponents/source/styles/smart.default.css";
 import "smart-webcomponents/source/modules/smart.calendar.js";
 export default {
@@ -87,20 +92,34 @@ export default {
 
                 });        
     });
-},
-    computed: {
+    
+    const selectedMood = ref(null);
 
-    },
+    const selectMood = (id) => {
+      selectedMood.value = id;
+    };
+    return {
+        selectedMood,
+        selectMood,
+    };
+
+
+},
     created() {
 
     },
 
     data() {
             return {
-
+                // selectedMood: null,
             };
         },
     methods(){
+        // function selectMood(id){
+        //     this.selectedMood = id;
+        // }
+
+
     },
     mounted(){
 
@@ -110,3 +129,6 @@ export default {
 
 </script>
 
+<style>
+
+</style> 
