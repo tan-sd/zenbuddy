@@ -21,17 +21,11 @@
 </template>
 
 <style>
-@font-face {
-    font-family: sf-pro-display-bold;
-    src: url("../assets/fonts/sf-display-pro/sf-pro-display-bold.otf");
-}
 .about-title {
-    font-family: sf-pro-display-bold !important;
     letter-spacing: 1.5px;
 }
 
 .about-button {
-    font-family: sf-pro-display-bold !important;
     background: none;
     padding: 10px;
     border-radius: 3.5rem;
