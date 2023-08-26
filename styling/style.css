@@ -19,15 +19,13 @@
     align-items: center;
     margin-top:5%;
     flex-wrap: wrap;
-
     position:relative;
-
-    background-color: white;
+    /* background-color: white; */
 }
 .faces{
     height:150px;
     width:auto;
-    background-color: white;
+    /* background-color: white; */
     margin-top:30px
 
 }
