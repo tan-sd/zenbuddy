@@ -147,23 +147,24 @@
                     <div class="">
                         <h3>Prompt for the day</h3>
                         <p>Describe a moment from today that brought a smile to your face. Dive into the details of what made this moment so joyful, and explore the positive emotions it stirred within you.</p>
-                        <button>Regenerate a prompt</button>
+                        <button class="btn btn-primary" @click="generatePrompt">Regenerate a prompt</button>
                     </div>
                     <div class = "text-container mt-3" >
                         <label class="label" for="journalEntry">Start your journal entry for the day!</label>
-                        <textarea id="journalEntry">ABC</textarea>
+                        <p>{{  aiPrompt  }}</p>
+                        <textarea id="journalEntry" v-model="journalEntry">ABC</textarea>
                         <div class="d-flex justify-content-center mt-2">
-                            <button type="button" class="btn btn-primary mt-2">Save Entry</button>
+                            <button type="button" class="btn btn-secondary mt-2">Save Entry</button>
                         </div>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
 import "smart-webcomponents/source/styles/smart.default.css";
 import "smart-webcomponents/source/modules/smart.calendar.js";
 import { fetchUserName } from "../firebase/index";
@@ -207,33 +208,68 @@ export default {
                 calendar.importantDatesTemplate = "importantDatesTemplate";
             });
         });
-
-        const selectedMood = ref(null);
-
-        const selectMood = (id) => {
-            selectedMood.value = id;
-        };
-        return {
-            selectedMood,
-            selectMood,
-        };
     },
     created() {},
 
     data() {
         return {
-            username: "",
+          username: "",
+          apiKey: process.env.VUE_APP_OPENAI_KEY, // my api key
+          journalEntry: "",
+          aiPrompt: "",
+          selectedMood: "sad",
+          conversation: [
+            { role: "system", content: "You are an ai assistant for a journalling app. Your job is to give prompts to the user to guide them with writing their daily journal entry. this journalling app aims to enhance mental well-being and to monitor personal development. You need to generate the first prompt based on the mood the user input: sad, angry, neutral, happy, euphoric. Then you would need to generate follow up prompts based on what the user inputs. The prompts should strictly be one question (no more than 30 words) and should help guide the user on writing their journal. Lets give this a try. I will give you one of those emotions and you will give me a prompt to start my journal entry. Only return the prompts in a question format."}
+          ]
         };
     },
-    methods() {
-        // function selectMood(id){
-        //     this.selectedMood = id;
-        // }
+
+    methods: {
+      async generatePrompt() {
+        var journalEntryTemp;
+
+        if (this.journalEntry == "") {
+            journalEntryTemp = this.selectedMood;
+        } else {
+            journalEntryTemp = this.journalEntry;
+        }
+
+        this.conversation.push({ role: "user", content: journalEntryTemp})
+
+        try {
+            const response = await fetch(
+            "https://api.openai.com/v1/chat/completions",
+            {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${this.apiKey}`,
+                },
+                
+                body: JSON.stringify({
+                messages: this.conversation,
+                max_tokens: 40,
+                temperature: 1,
+                model: "gpt-3.5-turbo",
+                }),
+            }
+            );
+
+          const data = await response.json();
+
+          // Access the generated text from the API response
+          const prompt = data.choices[0].message.content;
+          this.conversation.push({ role: "assistant", content: prompt})
+
+          this.aiPrompt = `ZenBuddy: ${prompt}`;
+        } catch (error) {
+          console.error("Error generating prompt:", error);
+        }
+      },
     },
+    
     async mounted() {
         this.username = await fetchUserName();
     },
 };
 </script>
-
-<style></style>
