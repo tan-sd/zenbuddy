@@ -23,32 +23,45 @@
 
             <!-- Journal Column -->
             <div class="col-8 ">
-                <h2 class="mt-3 text-center">How are you feeling today?</h2>
-                <div id="moods" class="">
-                    <button class="button" id="angry"  :class="{ 'selected': selectedMood=== 'angry' }" @click="selectMood('angry')">
-                        <img class='faces' :style="{ border: selectedMood === 'angry' ? '4px solid #AED0FF' : 'none', borderRadius: selectedMood === 'angry' ? '10%' : '0' }" src="../assets/images/moods/angry.png">
-                        <h5>Angry</h5>
-                    </button>
-                    <button class="button" id="sad" :class="{ 'selected': selectedMood=== 'sad' }" @click="selectMood('sad')">
-                        <img class='faces' :style="{ border: selectedMood === 'sad' ? '4px solid #AED0FF' : 'none' , borderRadius: selectedMood === 'sad' ? '10%' : '0'}" src="../assets/images/moods/sad.png">
-                        <h5>Sad</h5>
-                    </button>
-                    <button class="button" id="neutral" :class="{ 'selected': selectedMood=== 'neutral' }" @click="selectMood('neutral')">
-                        <img class='faces' :style="{ border: selectedMood === 'neutral' ? '4px solid #AED0FF' : 'none', borderRadius: selectedMood === 'neutral' ? '10%' : '0' }" src="../assets/images/moods/neutral.png">
-                        <h5>Neutral</h5>
-                    </button>
-                    <button class="button" id="happy" :class="{ 'selected': selectedMood=== 'happy' }" @click="selectMood('happy')">
-                        <img class='faces' :style="{ border: selectedMood === 'happy' ? '4px solid #AED0FF' : 'none',borderRadius: selectedMood === 'happy' ? '10%' : '0'  }" src="../assets/images/moods/happy.png">
-                        <h5>Happy</h5></button>
-                    <button class="button" id="euphoric" :class="{ 'selected': selectedMood=== 'euphoric' }" @click="selectMood('euphoric')">
-                        <img class='faces' :style="{ border: selectedMood === 'euphoric' ? '4px solid #AED0FF' : 'none', borderRadius: selectedMood === 'euphoric' ? '10%' : '0'  }" src="../assets/images/moods/euphoric.png">
-                        <h5>Euphoric</h5>
-                    </button>
-                    
+                <!-- Mood Selection Page -->
+                <div class="">
+                    <h2 class="mt-3 text-center">How are you feeling today?</h2>
+                    <div id="moods" class="">
+                        <button class="button" id="angry"  :class="{ 'selected': selectedMood=== 'angry' }" @click="selectMood('angry')">
+                            <img class='faces' :style="{ border: selectedMood === 'angry' ? '4px solid #AED0FF' : 'none', borderRadius: selectedMood === 'angry' ? '10%' : '0' }" src="../assets/images/moods/angry.png">
+                            <h5>Angry</h5>
+                        </button>
+                        <button class="button" id="sad" :class="{ 'selected': selectedMood=== 'sad' }" @click="selectMood('sad')">
+                            <img class='faces' :style="{ border: selectedMood === 'sad' ? '4px solid #AED0FF' : 'none' , borderRadius: selectedMood === 'sad' ? '10%' : '0'}" src="../assets/images/moods/sad.png">
+                            <h5>Sad</h5>
+                        </button>
+                        <button class="button" id="neutral" :class="{ 'selected': selectedMood=== 'neutral' }" @click="selectMood('neutral')">
+                            <img class='faces' :style="{ border: selectedMood === 'neutral' ? '4px solid #AED0FF' : 'none', borderRadius: selectedMood === 'neutral' ? '10%' : '0' }" src="../assets/images/moods/neutral.png">
+                            <h5>Neutral</h5>
+                        </button>
+                        <button class="button" id="happy" :class="{ 'selected': selectedMood=== 'happy' }" @click="selectMood('happy')">
+                            <img class='faces' :style="{ border: selectedMood === 'happy' ? '4px solid #AED0FF' : 'none',borderRadius: selectedMood === 'happy' ? '10%' : '0'  }" src="../assets/images/moods/happy.png">
+                            <h5>Happy</h5></button>
+                        <button class="button" id="euphoric" :class="{ 'selected': selectedMood=== 'euphoric' }" @click="selectMood('euphoric')">
+                            <img class='faces' :style="{ border: selectedMood === 'euphoric' ? '4px solid #AED0FF' : 'none', borderRadius: selectedMood === 'euphoric' ? '10%' : '0'  }" src="../assets/images/moods/euphoric.png">
+                            <h5>Euphoric</h5>
+                        </button>
+                        
+                    </div>
+                    <div class="d-flex justify-content-center mt-2">
+                        <button type="button" class="btn btn-primary mt-2">Select Mood</button>
+                    </div>
                 </div>
-                <div class="d-flex justify-content-center mt-2">
-                    <button type="button" class="btn btn-primary mt-2">Select Mood</button>
-                </div>
+                <!-- Journal Entry Page -->
+                <!-- <div class="">
+                    <div class = "text-container bg-primary" >
+                        <label class="label" for="journalEntry">Write Something</label>
+                        <textarea id="journalEntry"></textarea>
+                    </div>
+                </div> -->
+
+
+                
             </div>
             
         </div>
