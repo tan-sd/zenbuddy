@@ -9,8 +9,7 @@
                 <!-- Quote -->
                 <div class="row fw-light fst-italic my-3 fs-5">
                     <p class="text-center">
-                        “ The bad thing is that the time is short… and the good
-                        thing is that there is still some time..”
+                        {{ quote }}
                     </p>
                 </div>
 
@@ -69,7 +68,7 @@ ABC</textarea
                             class="button"
                             id="angry"
                             :class="{ selected: selectedMood === 'angry' }"
-                            @click="chooseMood('angry')"
+                            @click="chooseMood('angry'); generateQuote()"
                         >
                             <img
                                 class="faces"
@@ -89,7 +88,7 @@ ABC</textarea
                             class="button"
                             id="sad"
                             :class="{ selected: selectedMood === 'sad' }"
-                            @click="chooseMood('sad')"
+                            @click="chooseMood('sad'); generateQuote()"
                         >
                             <img
                                 class="faces"
@@ -109,7 +108,7 @@ ABC</textarea
                             class="button"
                             id="neutral"
                             :class="{ selected: selectedMood === 'neutral' }"
-                            @click="chooseMood('neutral')"
+                            @click="chooseMood('neutral'); generateQuote()"
                         >
                             <img
                                 class="faces"
@@ -131,7 +130,7 @@ ABC</textarea
                             class="button"
                             id="happy"
                             :class="{ selected: selectedMood === 'happy' }"
-                            @click="chooseMood('happy')"
+                            @click="chooseMood('happy'); generateQuote()"
                         >
                             <img
                                 class="faces"
@@ -151,7 +150,7 @@ ABC</textarea
                             class="button"
                             id="euphoric"
                             :class="{ selected: selectedMood === 'euphoric' }"
-                            @click="chooseMood('euphoric')"
+                            @click="chooseMood('euphoric');generateQuote()"
                         >
                             <img
                                 class="faces"
@@ -174,7 +173,7 @@ ABC</textarea
                         <button
                             type="button"
                             class="btn btn-primary mt-2"
-                            @click="confirmMood()"
+                            @click="confirmMood(); generateQuote()"
                         >
                             Select Mood
                         </button>
@@ -209,6 +208,7 @@ export default {
             apiKey: process.env.VUE_APP_OPENAI_KEY, // my api key
             journalEntry: "",
             aiPrompt: "",
+            quote: "",
             conversation: [
                 {
                     role: "system",
@@ -266,6 +266,40 @@ export default {
                 this.aiPrompt = `ZenBuddy: ${prompt}`;
             } catch (error) {
                 console.error("Error generating prompt:", error);
+            }
+        },
+        async generateQuote() {
+            
+            try {
+                const response = await fetch(
+                    "https://api.openai.com/v1/chat/completions",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${this.apiKey}`,
+                        },
+
+                        body: JSON.stringify({
+                            messages: [
+                                {role: "system", content: "You are an ai assistant for a journalling app. Your job is to give a random quote for the day that relates to the user's current mood. I will give you an emotion and you will generate a random quote of the day in relation to that emotion."},
+                                {role: "user", content: this.selectedMood}
+                            ],
+                            max_tokens: 60,
+                            temperature: 1,
+                            model: "gpt-3.5-turbo",
+                        }),
+                    }
+                );
+
+                const data = await response.json();
+
+                // Access the generated text from the API response
+                const quote = data.choices[0].message.content;
+
+                this.quote = `${quote}`;
+            } catch (error) {
+                console.error("Error generating quote:", error);
             }
         },
     },
