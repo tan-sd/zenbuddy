@@ -7,7 +7,7 @@ import {
     signOut,
 } from "firebase/auth";
 // import { getAnalytics } from "firebase/analytics";
-import { getDatabase, ref, set, get, child } from "firebase/database";
+import { getDatabase, ref, set, get, child, update } from "firebase/database";
 
 const firebaseConfig = {
     apiKey: process.env.VUE_APP_FIREBASE_KEY,
@@ -69,19 +69,33 @@ const fetchUserID = () => {
     }
 };
 
-// CRUD functions 
+// CRUD functions
 
 const readJournalData = (userId) => {
     const dbRef = ref(database, "users/" + userId + "/journal");
-    return get(dbRef).then((snapshot) => {
-        if (snapshot.exists()) {
-            return snapshot.val();
-        }
-    }).catch((error) => {
-        console.error(error);
-    } );
-    
+    return get(dbRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                return snapshot.val();
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 };
+
+const storeJournalData = async (userId, todayDate, journalData) => {
+    const dbRef = ref(database, "users/" + userId + "/journal");
+    try {
+        update(dbRef, {
+            [todayDate]: journalData,
+        });
+        console.log("Journal data stored successfully");
+    } catch (error) {
+        console.error("Error storing journal data: ", error);
+    }
+};
+
 export {
     auth,
     createUser,
@@ -91,4 +105,5 @@ export {
     fetchUserName,
     fetchUserID,
     readJournalData,
+    storeJournalData,
 };
