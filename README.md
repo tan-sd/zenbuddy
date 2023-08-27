@@ -96,8 +96,10 @@ npm run serve
 
 ### Test Account
 
-| **Username** | **shendatan@gmail.com** |
+| **Username** | **shengdatan@gmail.com** |
 | ------------ | --------------------- |
 | **Password** | **123456**          |
+
+If you would like to create an account, please note that password must be 6 characters or above.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
