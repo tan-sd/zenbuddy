@@ -334,6 +334,8 @@ export default {
                 mood: this.selectedMood,
             };
             storeJournalData(userId, todayFormattedDate, journalData);
+
+            alert("Entry Saved!")
         },
     },
     setup() {
