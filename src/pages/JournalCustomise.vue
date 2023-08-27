@@ -31,14 +31,20 @@
             @click="changeCoverColor(color)"
         ></div>
     </div>
-    <div class="mx-auto btn btn-primary justify-content-center">Confirm</div>
+    <div
+        class="mx-auto btn btn-primary justify-content-center"
+        @click="goToJournal"
+    >
+        Confirm
+    </div>
 </template>
 
 <script>
 import * as THREE from "three";
-// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-// import { onMounted } from "vue";
+import router from "@/router";
+import { auth } from "../firebase/index";
+import { getDatabase, ref, get, child, update } from "firebase/database";
 
 export default {
     data() {
@@ -55,12 +61,20 @@ export default {
                 this.selectedColor = color;
             }
         },
+        goToJournal() {
+            const user = auth.currentUser;
+            const db = getDatabase();
+            const dbRef = ref(db);
+
+            get(child(dbRef, `users/${user.uid}`)).then(() => {
+                update(ref(db, "users/" + user.uid), {
+                    selectedColor: this.selectedColor,
+                });
+            });
+            router.push("/journal");
+        },
     },
     mounted() {
-        // const sizes = {
-        //     width: window.innerWidth,
-        //     height: window.innerHeight,
-        // };
         const renderer = this.$refs.renderer.renderer;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         const scene = this.$refs.scene.scene;

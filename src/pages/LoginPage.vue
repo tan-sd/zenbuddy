@@ -41,8 +41,10 @@
 </template>
 
 <script>
+// import router from "@/router";
 import router from "@/router";
-import { createUser, signInUser } from "../firebase/index";
+import { auth, createUser, signInUser } from "../firebase/index";
+import { getDatabase, ref, get, child, update } from "firebase/database";
 
 export default {
     name: "LoginPage",
@@ -66,10 +68,25 @@ export default {
         },
         handleSignIn() {
             signInUser(this.email, this.password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    console.log(user, " signed in successfully");
-                    router.push("/journal");
+                .then(() => {
+                    const user = auth.currentUser;
+                    const db = getDatabase();
+                    const dbRef = ref(db);
+
+                    get(child(dbRef, `users/${user.uid}`))
+                        .then((snapshot) => {
+                            if (snapshot.child("selectedColor").val() == null) {
+                                update(ref(db, "users/" + user.uid), {
+                                    selectedColor: "",
+                                });
+                                router.push("/customise");
+                            } else {
+                                router.push("/journal");
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
                 })
                 .catch((error) => {
                     console.error("Error signing in user: ", error);

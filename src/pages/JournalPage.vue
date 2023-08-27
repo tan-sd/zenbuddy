@@ -26,10 +26,7 @@
             <div class="col-8">
                 <!-- Journal Entry Page -->
                 <!-- Prompt Message -->
-                <img
-                    class="journal-overlay"
-                    src="../assets/images/overlays/bookRedOverlay.png"
-                />
+                <img class="journal-overlay" :src="selectedColor" />
 
                 <div class="" v-if="confirmedMood">
                     <div class="">
@@ -193,6 +190,8 @@ import { onMounted } from "vue";
 import "smart-webcomponents/source/styles/smart.default.css";
 import "smart-webcomponents/source/modules/smart.calendar.js";
 import { fetchUserName } from "../firebase/index";
+import { auth } from "../firebase/index";
+import { getDatabase, ref, get, child } from "firebase/database";
 
 export default {
     name: "JournalPage",
@@ -208,6 +207,7 @@ export default {
                 "2023-08-08",
                 "2023-08-09",
             ],
+            selectedColor: require("../assets/images/overlays/bookRedOverlay.png"),
             selectedMood: "neutral",
             confirmedMood: false,
             username: "",
@@ -312,6 +312,22 @@ export default {
     },
     async mounted() {
         this.username = await fetchUserName();
+
+        const user = auth.currentUser;
+        const db = getDatabase();
+        const dbRef = ref(db);
+
+        get(child(dbRef, `users/${user.uid}`)).then((snapshot) => {
+            if (snapshot.child("selectedColor").val() === "#8e111d") {
+                this.selectedColor = require("../assets/images/overlays/bookRedOverlay.png");
+            } else if (snapshot.child("selectedColor").val() === "#32390f") {
+                this.selectedColor = require("../assets/images/overlays/bookGreenOverlay.png");
+            } else if (snapshot.child("selectedColor").val() === "#5f89cc") {
+                this.selectedColor = require("../assets/images/overlays/bookBlueOverlay.png");
+            } else {
+                this.selectedColor = require("../assets/images/overlays/bookPurpleOverlay.png");
+            }
+        });
     },
 };
 </script>
