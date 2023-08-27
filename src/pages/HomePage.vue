@@ -43,6 +43,8 @@ export default {
         const renderer = this.$refs.renderer;
         const books = this.$refs.books.scene;
 
+        console.log(books)
+
         renderer.onBeforeRender(() => {
             books.rotation.y = Math.sin(this.time) * 0.5;
 
@@ -55,7 +57,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 .about-content {
     margin-top: 250px;
