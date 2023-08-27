@@ -1,5 +1,7 @@
 <template>
-    <div class="title text-center">Customise Your Journal</div>
+    <div class="text-center mt-3">
+        <h4 class="text-primary fw-bold">Customise Your Journal</h4>
+    </div>
     <div class="canvas mx-auto">
         <Renderer ref="renderer" alpha antialias orbit-ctrl resize>
             <Camera ref="camera" fov="50" :position="{ x: 0, y: 0, z: 600 }" />
@@ -32,7 +34,7 @@
         ></div>
     </div>
     <div
-        class="mx-auto btn btn-primary justify-content-center"
+        class="mx-auto btn btn-primary justify-content-center mb-5"
         @click="goToJournal"
     >
         Confirm
@@ -140,8 +142,8 @@ export default {
 
 <style scoped>
 .circle {
-    width: 50px;
-    height: 50px;
+    width: 5vh;
+    height: 5vh;
     border-radius: 50%;
     margin: 10px;
     display: flex;
@@ -151,10 +153,6 @@ export default {
     cursor: pointer;
 }
 .canvas {
-    height: 525px;
-}
-
-.title {
-    font-weight: 600;
+    height: 100%;
 }
 </style>

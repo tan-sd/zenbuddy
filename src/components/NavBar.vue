@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar">
+    <nav class="navbar bg-light">
         <div class="container-fluid">
             <router-link to="/" class="navbar-brand">
                 <img
@@ -9,7 +9,7 @@
             </router-link>
             <div>
                 <ul class="navbar-nav me-4">
-                    <li class="nav-item">
+                    <li class="nav-item fw-bold">
                         <router-link
                             v-if="signInStatus"
                             to="/"

@@ -1,5 +1,5 @@
 <template>
-    <div class="container d-flex justify-content-center align-items-center">
+    <div class="d-flex justify-content-center align-items-center">
         <form class="flex-column">
             <div class="form-floating mb-3">
                 <input
@@ -97,7 +97,5 @@ export default {
 </script>
 
 <style>
-.container {
-    margin-top: 250px;
-}
+
 </style>
