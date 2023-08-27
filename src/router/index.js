@@ -3,6 +3,7 @@ import HomePage from "../pages/HomePage.vue";
 import LoginPage from "../pages/LoginPage.vue";
 import SignUpPage from "../pages/SignUpPage.vue";
 import JournalPage from "../pages/JournalPage.vue";
+import JournalCustomise from "../pages/JournalCustomise.vue";
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         path: "/journal",
         name: "Journal",
         component: JournalPage,
+    },
+    {
+        path: "/customise",
+        name: "Customise Your Journal",
+        component: JournalCustomise,
     },
 ];
 
