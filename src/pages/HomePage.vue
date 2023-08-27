@@ -43,8 +43,6 @@ export default {
         const renderer = this.$refs.renderer;
         const books = this.$refs.books.scene;
 
-        console.log(books)
-
         renderer.onBeforeRender(() => {
             books.rotation.y = Math.sin(this.time) * 0.5;
 
