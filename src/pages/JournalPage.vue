@@ -189,28 +189,23 @@ ABC</textarea
 </template>
 
 <script>
-import { onMounted } from "vue";
+// DATABASE STUFF 
+// import {readJournalData} from "../firebase/index";
+
+import { onMounted} from "vue";
 import "smart-webcomponents/source/styles/smart.default.css";
 import "smart-webcomponents/source/modules/smart.calendar.js";
-import { fetchUserName } from "../firebase/index";
+import { fetchUserName, readJournalData, fetchUserID} from "../firebase/index";
 
 export default {
     name: "JournalPage",
     data() {
         return {
-            importantDates: [
-                "2023-08-01",
-                "2023-08-03",
-                "2023-08-04",
-                "2023-08-05",
-                "2023-08-06",
-                "2023-08-07",
-                "2023-08-08",
-                "2023-08-09",
-            ],
+            // importantDates : ["2023-08-01", "2023-08-03", "2023-08-04", "2023-08-05", "2023-08-06", "2023-08-07", "2023-08-08","2023-08-09"],
             selectedMood: "neutral",
-            confirmedMood: false,
-            username: "",
+            confirmedMood : false,
+            username: "", 
+            userID: "",
             apiKey: process.env.VUE_APP_OPENAI_KEY, // my api key
             journalEntry: "",
             aiPrompt: "",
@@ -275,8 +270,8 @@ export default {
         },
     },
     setup() {
-        onMounted(() => {
-            const calendar = document.querySelector("smart-calendar");
+    onMounted(async() => {
+        const calendar = document.querySelector("smart-calendar");
 
             // Get today's date to set maximum date
             const today = new Date();
@@ -286,32 +281,47 @@ export default {
             const todayFormattedDate = `${year}-${month}-${day}`;
             calendar.max = todayFormattedDate;
 
-            // Set important dates
-            // ASYNC DATES HERE
-            const importantDates = [
-                "2023-08-01",
-                "2023-08-03",
-                "2023-08-04",
-                "2023-08-05",
-                "2023-08-06",
-                "2023-08-07",
-                "2023-08-08",
-                "2023-08-09",
-            ];
-            calendar.importantDates = importantDates;
+        try {
+            const uid1 = await fetchUserID();
+            // console.log("userid", uid1);
+            const journalData = await readJournalData(uid1);
+            // console.log("JournalData", journalData);
+            const journalDates = Object.keys(journalData);
+            console.log("JournalDates", journalDates);
+            calendar.importantDates = journalDates;
 
-            // Set importantDatesTemplate
             calendar.whenRendered(() => {
-                const template = document.createElement("template");
+                const template = document.createElement('template');
                 template.id = "importantDatesTemplate";
                 template.innerHTML = `<span>{{day}}</span><span>📒</span>`;
                 document.body.appendChild(template);
                 calendar.importantDatesTemplate = "importantDatesTemplate";
             });
-        });
+
+        } catch (error) {
+            console.error("Error:", error);
+        }        
     },
+    )},
     async mounted() {
+        console.log("mounted functions")
         this.username = await fetchUserName();
+        this.userID = await fetchUserID();
+        console.log(this.username, this.userID);
+
+        // // read journal data
+        // const journalData = await readJournalData(this.userID);
+        // console.log("JournalData",journalData);
+        // const journalDates = Object.keys(journalData);
+        
+        // // change date format
+        // const journalDatesFormatted = journalDates.map((date) => {
+        //     const year = date.slice(0,4);
+        //     const month = date.slice(4,6);
+        //     const day = date.slice(6,8);
+        //     return `${year}-${month}-${day}`;
+        // });
+        // console.log("JournalDatesFormatted",journalDatesFormatted);
     },
 };
 </script>

@@ -26,6 +26,7 @@ const firebaseApp = initializeApp({ ...firebaseConfig });
 const auth = getAuth(firebaseApp);
 const database = getDatabase(firebaseApp);
 
+// login and signup functions
 const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
 };
@@ -59,6 +60,28 @@ const fetchUserName = () => {
     });
 };
 
+const fetchUserID = () => {
+    const user = auth.currentUser;
+    if (user) {
+        return user.uid;
+    } else {
+        return null;
+    }
+};
+
+// CRUD functions 
+
+const readJournalData = (userId) => {
+    const dbRef = ref(database, "users/" + userId + "/journal");
+    return get(dbRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            return snapshot.val();
+        }
+    }).catch((error) => {
+        console.error(error);
+    } );
+    
+};
 export {
     auth,
     createUser,
@@ -66,4 +89,6 @@ export {
     signOutUser,
     storeUserData,
     fetchUserName,
+    fetchUserID,
+    readJournalData,
 };
