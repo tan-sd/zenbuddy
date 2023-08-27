@@ -53,6 +53,7 @@ ABC</textarea
                             <button
                                 type="button"
                                 class="btn btn-secondary mt-2"
+                                @click="sendJournalEntry"
                             >
                                 Save Entry
                             </button>
@@ -186,14 +187,12 @@ ABC</textarea
 </template>
 
 <script>
-// DATABASE STUFF 
-// import {readJournalData} from "../firebase/index";
-
-import { onMounted} from "vue";
+// DATABASE STUFF
+import { onMounted } from "vue";
 import "smart-webcomponents/source/styles/smart.default.css";
 import "smart-webcomponents/source/modules/smart.calendar.js";
-import { fetchUserName, readJournalData, fetchUserID} from "../firebase/index";
-import { auth } from "../firebase/index";
+import { fetchUserName, readJournalData, fetchUserID } from "../firebase/index";
+import { auth, storeJournalData } from "../firebase/index";
 import { getDatabase, ref, get, child } from "firebase/database";
 
 export default {
@@ -203,8 +202,8 @@ export default {
             // importantDates : ["2023-08-01", "2023-08-03", "2023-08-04", "2023-08-05", "2023-08-06", "2023-08-07", "2023-08-08","2023-08-09"],
             selectedColor: require("../assets/images/overlays/bookRedOverlay.png"),
             selectedMood: "neutral",
-            confirmedMood : false,
-            username: "", 
+            confirmedMood: false,
+            username: "",
             userID: "",
             apiKey: process.env.VUE_APP_OPENAI_KEY, // my api key
             journalEntry: "",
@@ -268,10 +267,25 @@ export default {
                 console.error("Error generating prompt:", error);
             }
         },
+        async sendJournalEntry() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, "0");
+            const day = String(today.getDate()).padStart(2, "0");
+            const todayFormattedDate = `${year}-${month}-${day}`;
+
+            const userId = auth.currentUser.uid;
+            const journalData = {
+                journalEntry: this.journalEntry,
+                message: this.conversation,
+                mood: this.selectedMood,
+            };
+            storeJournalData(userId, todayFormattedDate, journalData);
+        },
     },
     setup() {
-    onMounted(async() => {
-        const calendar = document.querySelector("smart-calendar");
+        onMounted(async () => {
+            const calendar = document.querySelector("smart-calendar");
 
             // Get today's date to set maximum date
             const today = new Date();
@@ -281,39 +295,37 @@ export default {
             const todayFormattedDate = `${year}-${month}-${day}`;
             calendar.max = todayFormattedDate;
 
-        try {
-            const uid1 = await fetchUserID();
-            // console.log("userid", uid1);
-            const journalData = await readJournalData(uid1);
-            // console.log("JournalData", journalData);
-            const journalDates = Object.keys(journalData);
-            console.log("JournalDates", journalDates);
-            calendar.importantDates = journalDates;
+            try {
+                const uid1 = await fetchUserID();
+                // console.log("userid", uid1);
+                const journalData = await readJournalData(uid1);
+                // console.log("JournalData", journalData);
+                const journalDates = Object.keys(journalData);
+                console.log("JournalDates", journalDates);
+                calendar.importantDates = journalDates;
 
-            calendar.whenRendered(() => {
-                const template = document.createElement('template');
-                template.id = "importantDatesTemplate";
-                template.innerHTML = `<span>{{day}}</span><span>📒</span>`;
-                document.body.appendChild(template);
-                calendar.importantDatesTemplate = "importantDatesTemplate";
-            });
-
-        } catch (error) {
-            console.error("Error:", error);
-        }        
+                calendar.whenRendered(() => {
+                    const template = document.createElement("template");
+                    template.id = "importantDatesTemplate";
+                    template.innerHTML = `<span>{{day}}</span><span>📒</span>`;
+                    document.body.appendChild(template);
+                    calendar.importantDatesTemplate = "importantDatesTemplate";
+                });
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        });
     },
-    )},
     async mounted() {
-        console.log("mounted functions")
+        console.log("mounted functions");
         this.username = await fetchUserName();
         this.userID = await fetchUserID();
-        console.log(this.username, this.userID);
 
         // // read journal data
         // const journalData = await readJournalData(this.userID);
         // console.log("JournalData",journalData);
         // const journalDates = Object.keys(journalData);
-        
+
         // // change date format
         // const journalDatesFormatted = journalDates.map((date) => {
         //     const year = date.slice(0,4);
@@ -336,6 +348,26 @@ export default {
                 this.selectedColor = require("../assets/images/overlays/bookBlueOverlay.png");
             } else {
                 this.selectedColor = require("../assets/images/overlays/bookPurpleOverlay.png");
+            }
+        });
+
+        get(child(dbRef, `users/${user.uid}` + "/journal")).then((snapshot) => {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, "0");
+            const day = String(today.getDate()).padStart(2, "0");
+            const todayFormattedDate = `${year}-${month}-${day}`;
+
+            console.log(snapshot.child(todayFormattedDate).val());
+            console.log(snapshot.child(todayFormattedDate).val().journalEntry);
+            console.log(snapshot.child(todayFormattedDate).val().mood);
+            console.log(snapshot.child(todayFormattedDate).val().message);
+
+            if (snapshot.child(todayFormattedDate).exists() == true) {
+                this.confirmedMood = true;
+                this.conversation = snapshot.child(todayFormattedDate).val().message;
+                this.journalEntry = snapshot.child(todayFormattedDate).val().journalEntry;
+                this.mood = snapshot.child(todayFormattedDate).val().mood;
             }
         });
     },
