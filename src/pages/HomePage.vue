@@ -71,4 +71,7 @@ export default {
     height: 100%;
     overflow: hidden;
 }
+.about-button{
+    color: white;
+}
 </style>

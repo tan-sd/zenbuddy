@@ -56,3 +56,18 @@
     outline: none;
     padding:15px;
 }
+.btn-primary, .btn-warning  {
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #124030;
+    color: white;
+}
+.btn-warning:hover {
+    background-color: #bb8e14;
+    color: white;
+}
+.btn {
+    transition: all 200ms ease-in-out;
+    font-weight: bold;
+}
