@@ -3,55 +3,48 @@
         <div class="row">
             <!-- Quote & Calendar Column -->
             <div class="col-4">
-                <div class="row">
-                    <h2 class="text-center">Welcome {{ username }}</h2>
+                <div class="row mt-3 mx-3">
+                    <h2 class="text-center text-truncate">Welcome {{ username }}!</h2>
                 </div>
                 <!-- Quote -->
-                <div class="row fw-light fst-italic my-3 fs-5">
-                    <p class="text-center">
+                <div class="row fw-light fst-italic m-3 fs-5">
+                    <p id="dailyQuoteText" class="text-center text-primary">
                         {{ quote }}
                     </p>
                 </div>
 
                 <!-- Calendar -->
-                <div class="row mx-auto mt-1">
+                <div id="calendarContainer" class="row mx-auto mb-3">
                     <div class="vue-root">
-                        <smart-calendar id="calendar"></smart-calendar>
+                        <smart-calendar id="calendar" class="mx-auto width-100"></smart-calendar>
                     </div>
                 </div>
             </div>
 
             <!-- Journal Column -->
-            <div class="col-8">
+            <div class="col-8 position-relative">
                 <!-- Journal Entry Page -->
                 <!-- Prompt Message -->
                 <img class="journal-overlay" :src="selectedColor" />
 
-                <div class="" v-if="confirmedMood">
-                    <div class="">
-                        <h3>Prompt for the day</h3>
-                        <p>
-                            Describe a moment from today that brought a smile to
-                            your face. Dive into the details of what made this
-                            moment so joyful, and explore the positive emotions
-                            it stirred within you.
-                        </p>
-                        <button class="btn btn-primary" @click="generatePrompt">
-                            Regenerate a prompt
-                        </button>
+                <div class="m-5" v-if="confirmedMood">
+                    <div>
+                        <div class="p-2 mb-3">
+                            <h5 class="text-primary">
+                                <span class="fw-bold text-dark">ZenBuddy:</span> {{ aiPrompt }}
+                            </h5>
+                        </div>
                     </div>
                     <div class="text-container mt-3">
-                        <label class="label" for="journalEntry"
-                            >Start your journal entry for the day!</label
-                        >
-                        <p>{{ aiPrompt }}</p>
-                        <textarea id="journalEntry" v-model="journalEntry">
-ABC</textarea
-                        >
-                        <div class="d-flex justify-content-center mt-2">
+                        <textarea placeholder="Start your journal entry for the day!..." id="journalEntry" class="rounded" v-model="journalEntry">ABC</textarea>
+                        <div class="d-flex justify-content-between mt-2">
+                            <button class="btn btn-primary" @click="generatePrompt">
+                                Help me ZenBuddy!
+                            </button>
+
                             <button
                                 type="button"
-                                class="btn btn-secondary mt-2"
+                                class="btn btn-warning"
                             >
                                 Save Entry
                             </button>
@@ -59,16 +52,16 @@ ABC</textarea
                     </div>
                 </div>
                 <!-- Mood Selection Page -->
-                <div class="moods-container" v-else>
-                    <h2 class="moods-title mt-3 text-center">
-                        How are you feeling today?
+                <div class="d-flex h-100 flex-column align-items-center justify-content-center" v-else>
+                    <h2 class="mt-3 text-center text-dark fw-bold">
+                        Hey! How are you feeling today?
                     </h2>
                     <div id="moods" class="">
                         <button
                             class="button"
                             id="angry"
                             :class="{ selected: selectedMood === 'angry' }"
-                            @click="chooseMood('angry'); generateQuote()"
+                            @click="chooseMood('angry')"
                         >
                             <img
                                 class="faces"
@@ -88,7 +81,7 @@ ABC</textarea
                             class="button"
                             id="sad"
                             :class="{ selected: selectedMood === 'sad' }"
-                            @click="chooseMood('sad'); generateQuote()"
+                            @click="chooseMood('sad')"
                         >
                             <img
                                 class="faces"
@@ -108,7 +101,7 @@ ABC</textarea
                             class="button"
                             id="neutral"
                             :class="{ selected: selectedMood === 'neutral' }"
-                            @click="chooseMood('neutral'); generateQuote()"
+                            @click="chooseMood('neutral')"
                         >
                             <img
                                 class="faces"
@@ -130,7 +123,7 @@ ABC</textarea
                             class="button"
                             id="happy"
                             :class="{ selected: selectedMood === 'happy' }"
-                            @click="chooseMood('happy'); generateQuote()"
+                            @click="chooseMood('happy')"
                         >
                             <img
                                 class="faces"
@@ -150,7 +143,7 @@ ABC</textarea
                             class="button"
                             id="euphoric"
                             :class="{ selected: selectedMood === 'euphoric' }"
-                            @click="chooseMood('euphoric');generateQuote()"
+                            @click="chooseMood('euphoric')"
                         >
                             <img
                                 class="faces"
@@ -173,7 +166,7 @@ ABC</textarea
                         <button
                             type="button"
                             class="btn btn-primary mt-2"
-                            @click="confirmMood(); generateQuote()"
+                            @click="confirmMood(); generateQuote(); generatePrompt()"
                         >
                             Select Mood
                         </button>
@@ -263,7 +256,7 @@ export default {
                 const prompt = data.choices[0].message.content;
                 this.conversation.push({ role: "assistant", content: prompt });
 
-                this.aiPrompt = `ZenBuddy: ${prompt}`;
+                this.aiPrompt = `${prompt}`;
             } catch (error) {
                 console.error("Error generating prompt:", error);
             }
@@ -379,8 +372,8 @@ export default {
 <style scoped>
 .journal-overlay {
     position: absolute;
-    width: 65%;
-    height: 89%;
+    width: 100%;
+    height: 100%;
     margin: 0;
     right: 0;
     z-index: -1;
@@ -390,19 +383,17 @@ export default {
     background-color: transparent;
 }
 
-#moods {
-    width: 60%;
-    margin-left: 15%;
+#moods > button > h5 {
+    color: #D8A824;
 }
 
-.moods-container {
-    top: 40%;
-    position: relative;
+#dailyQuoteText {
+    font-size: 0.8rem;
+    font-weight: 500;
 }
 
-.moods-title {
-    width: 60%;
-    margin-left: 15%;
+#calendarContainer {
+    overflow: auto;
 }
 
 .moods-confirm {
@@ -410,7 +401,26 @@ export default {
     margin-left: 39%;
 }
 .faces {
-    height: 60px;
+    height: 6vw;
     width: auto;
 }
+.btn-primary, .btn-warning  {
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #124030;
+    color: white;
+}
+.btn-warning:hover {
+    background-color: #bb8e14;
+    color: white;
+}
+.btn {
+    transition: all 200ms ease-in-out;
+    font-weight: bold;
+}
+#journalEntry {
+    background-color: white;
+}
+
 </style>

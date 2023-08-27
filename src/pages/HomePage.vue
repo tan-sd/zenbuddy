@@ -1,22 +1,24 @@
 <template>
-    <div class="container-fluid d-flex">
-        <div class="about-content">
-            <div class="about-title mb-3">
-                YOUR PERSONALISED JOURNAL COMPANION
+    <div id="homePageContainer" class="d-flex">
+        <div id="home-title-container" class="about-content d-flex align-items-center mx-5">
+            <div>
+                <div class="mb-3">
+                    YOUR PERSONALISED JOURNAL COMPANION
+                </div>
+                <div class="mb-3">
+                    Immerse yourself in ZenBuddy, where artistry meets purpose, and
+                    individuality finds its sanctuary. Our meticulously crafted
+                    journaling app unites a diverse community with a common goal:
+                    nurturing mental well-being and fostering personal growth.
+                </div>
+                <button class="btn btn-primary">
+                    <router-link to="/login">
+                        <div class="about-button">Begin your journey</div>
+                    </router-link>
+                </button>
             </div>
-            <div class="about-text mb-3">
-                Immerse yourself in ZenBuddy, where artistry meets purpose, and
-                individuality finds its sanctuary. Our meticulously crafted
-                journaling app unites a diverse community with a common goal:
-                nurturing mental well-being and fostering personal growth.
-            </div>
-            <button class="btn btn-primary">
-                <router-link to="/login">
-                    <div class="about-button">Begin your journey</div>
-                </router-link>
-            </button>
         </div>
-        <div class="canvas w-100">
+        <div id="book-3d-container" class="canvas w-100">
             <Renderer ref="renderer" alpha antialias resize>
                 <Camera :position="{ z: 7 }" />
                 <Scene>
@@ -57,18 +59,16 @@ export default {
 
 <style scoped>
 
-.about-content {
-    margin-top: 250px;
-    margin-left: 50px;
+#homePageContainer {
+    overflow: hidden;
+    height: 1px;
 }
-.about-text {
-    display: block;
+#home-title-container {
+    height: 100%;
+    overflow: hidden;
 }
-.about-title {
-    letter-spacing: 1.5px;
-    font-weight: 600;
-}
-.canvas {
-    height: 700px;
+#book-3d-container {
+    height: 100%;
+    overflow: hidden;
 }
 </style>
